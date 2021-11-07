@@ -29,7 +29,7 @@ namespace Songwhip
 
         l.service = service;
 
-        if (element.is_array() > 0)
+        if (element.is_array())
         {
             l.link = element[0].at("link").get<string>();
 
