@@ -6,9 +6,9 @@
       "type": "cppdbg",
       "request": "launch",
       "stopAtEntry": false,
-      "cwd": "/home/menno/Projects/songwhip-bot/build",
+      "cwd": "${workspaceFolder}/build",
       "environment": [],
-      "program": "/home/menno/Projects/songwhip-bot/build/songwhip_bot",
+      "program": "${workspaceFolder}/build/songwhip_bot",
       "args": [
         "https://open.spotify.com/album/0wVxfQ6SvoNWbBc2re0lU5?si=FDPC8SJUQZSows8JTV2_yA"
       ],
@@ -21,6 +21,21 @@
           "ignoreFailures": true
         }
       ],
+      "preLaunchTask": "Build"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session (MacOS)",
+      "type": "lldb",
+      "request": "launch",
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/build",
+      "environment": [],
+      "program": "${workspaceFolder}/build/songwhip_bot",
+      "args": [
+        "https://open.spotify.com/album/0wVxfQ6SvoNWbBc2re0lU5?si=FDPC8SJUQZSows8JTV2_yA"
+      ],
+      "MIMode": "vscode-lldb",
+      "targetArchitecture": "arm64",
       "preLaunchTask": "Build"
     }
   ]
