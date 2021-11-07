@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "stopAtEntry": false,
+      "cwd": "/home/menno/Projects/songwhip-bot/build",
+      "environment": [],
+      "program": "/home/menno/Projects/songwhip-bot/build/songwhip_bot",
+      "args": [
+        "https://open.spotify.com/album/0wVxfQ6SvoNWbBc2re0lU5?si=FDPC8SJUQZSows8JTV2_yA"
+      ],
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build"
+    }
+  ]
+}
