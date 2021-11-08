@@ -3,6 +3,7 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 
+#include "exceptions/SongwhipException.cpp"
 #include "models/RequestResult.cpp"
 
 using namespace std;
@@ -57,6 +58,10 @@ namespace Songwhip
             return RequestResult::fromJson(j);
         }
         else
-            throw exception();
+        {
+            RequestResult result;
+            result.success = false;
+            return result;
+        }
     } 
 }

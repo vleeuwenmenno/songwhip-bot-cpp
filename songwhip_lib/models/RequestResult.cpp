@@ -7,7 +7,7 @@
 using namespace std;
 
 namespace Songwhip
-{
+{    
     /**
      * @brief Indicates what kind of RequestResult value has been retrieved.
      * 
@@ -19,11 +19,13 @@ namespace Songwhip
         artist
     };
 
+    struct RequestResult;
+    
     /**
      * @brief Contains details regarding a fetched track or album.
      * 
      */
-    struct RequestResult
+    struct SongwhipResult
     {
         public:
             int id;
@@ -41,13 +43,24 @@ namespace Songwhip
 
             vector<Artist> artists;
             map<string, bool> services;
+    };
+
+    /**
+     * @brief Contains results of a songwhip fetch request.
+     * 
+     */
+    struct RequestResult
+    {
+        public:
+            SongwhipResult result;
+            bool success;
 
             static RequestResult fromJson(json element);
     };
 
     RequestResult RequestResult::fromJson(json element)
     {
-        Songwhip::RequestResult result;
+        Songwhip::SongwhipResult result;
 
         result.path = (element.at("path").get<string>());
         result.name = (element.at("name").get<string>());
@@ -76,6 +89,11 @@ namespace Songwhip
         result.updatedAt = ParseISO8601(element.at("updatedAt").get<string>());
         result.refreshedAt = ParseISO8601(element.at("refreshedAt").get<string>());
 
-        return result;
+        RequestResult reqRes;
+
+        reqRes.result = result;
+        reqRes.success = true;
+        
+        return reqRes;
     }
 }

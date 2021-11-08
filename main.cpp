@@ -13,26 +13,42 @@ class DiscordClient : public SleepyDiscord::DiscordClient
     public:
         using SleepyDiscord::DiscordClient::DiscordClient;
 
-        void onMessage(SleepyDiscord::Message message) override 
+        void onMessage(SleepyDiscord::Message msg) override 
         {
-            if (message.startsWith("https://"))
+            if (msg.startsWith("https://www.spotify.com/") ||
+                msg.startsWith("https://spotify.com/") ||
+                msg.startsWith("https://open.spotify.com/") ||
+                msg.startsWith("https://deezer.com/") ||
+                msg.startsWith("https://www.deezer.com/") ||
+                msg.startsWith("https://youtube.com/") ||
+                msg.startsWith("https://www.youtube.com/") ||
+                msg.startsWith("https://music.youtube.com/") ||
+                msg.startsWith("https://music.apple.com/") ||
+                msg.startsWith("https://tidal.com/") ||
+                msg.startsWith("https://www.tidal.com/"))
             {
-                //sendMessage(message.channelID, "Hello " + message.author.username);
-                string s;
-                Songwhip::RequestResult result = Songwhip::Requester::fetch(message.content);
-                
-                if (result.type == Songwhip::ResultType::album)
-                    s += "Album";
-                else if (result.type == Songwhip::ResultType::track)
-                    s += "Track";
+                Songwhip::RequestResult requestResult = Songwhip::Requester::fetch(msg.content);
+                if (requestResult.success)
+                {
+                    Songwhip::SongwhipResult result = requestResult.result;
+                    SleepyDiscord::Embed embed;
+                    SleepyDiscord::EmbedImage image;
+                    SleepyDiscord::EmbedAuthor author;
+                    
+                    author.iconUrl = result.artists[0].imageUrl;
+                    image.url = result.imageUrl;
 
-                s += " '" + result.name + "' by ";
+                    embed.author = author;
+                    embed.title = "Title";
+                    embed.description = "Description";
+                    embed.url = result.imageUrl;
+                    embed.image = image;
 
-                for (Songwhip::Artist a : result.artists)
-                    s += a.name + ", ";
+                    embed.footer.text = "Shared by " + msg.author.username + "#" + msg.author.discriminator;
+                    // embed.footer.iconUrl = msg.author.getJSONStructure();
 
-                s = s.substr(0, s.length()-2);
-                sendMessage(message.channelID, s);
+                    sendMessage(msg.channelID, " ", embed);
+                }
             }
         }
 };
