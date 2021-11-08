@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 {
     if (argc > 1)
     {
-        DiscordClient client("ODYxMDE4MTc1OTM1ODczMDU0.YODrqg.nJrcyf5CjAazmLdlA0QIYmNBLQA", SleepyDiscord::USER_CONTROLED_THREADS);
+        DiscordClient client(getenv("DISCORD_TOKEN"), SleepyDiscord::USER_CONTROLED_THREADS);
         client.setIntents(SleepyDiscord::Intent::SERVER_MESSAGES);
         client.run();
     }

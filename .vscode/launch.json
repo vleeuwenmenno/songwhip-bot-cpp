@@ -21,7 +21,8 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build"
+      "preLaunchTask": "Build",
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "name": "C/C++ Runner: Debug Session (MacOS)",
@@ -36,7 +37,8 @@
       ],
       "MIMode": "vscode-lldb",
       "targetArchitecture": "arm64",
-      "preLaunchTask": "Build"
+      "preLaunchTask": "Build",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
