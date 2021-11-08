@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0.0)
 project(songwhip_bot VERSION 0.1.0)
 include(FetchContent)
 
+FetchContent_Declare(sleepydiscord GIT_REPOSITORY https://github.com/yourWaifu/sleepy-discord.git GIT_TAG develop)
+FetchContent_MakeAvailable(sleepydiscord)
+
 # Fetch nlohmann::json
 FetchContent_Declare(json
   GIT_REPOSITORY https://github.com/nlohmann/json
@@ -29,3 +32,4 @@ include(CPack)
 
 target_link_libraries(songwhip_bot PRIVATE ${CURL_LIBRARIES})
 target_link_libraries(songwhip_bot PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(songwhip_bot PRIVATE sleepy-discord)
