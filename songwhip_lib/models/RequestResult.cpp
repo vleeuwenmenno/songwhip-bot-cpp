@@ -40,6 +40,7 @@ namespace Songwhip
             time_t refreshedAt;
 
             vector<Artist> artists;
+            map<string, bool> services;
 
             static RequestResult fromJson(json element);
     };
@@ -65,6 +66,11 @@ namespace Songwhip
                 result.artists.push_back(Artist::fromJson(element));
         }
         
+        for ( auto &mol : element["links"].get<json::object_t>() )
+        {
+            result.services.emplace(mol.first, mol.second);
+        }
+
         result.releaseDate = ParseISO8601(element.at("releaseDate").get<string>());
         result.createdAt = ParseISO8601(element.at("createdAt").get<string>());
         result.updatedAt = ParseISO8601(element.at("updatedAt").get<string>());
