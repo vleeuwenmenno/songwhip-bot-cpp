@@ -8,6 +8,44 @@
 using json = nlohmann::json;
 using namespace std;
 
+// Get current date/time, format is YYYY-MM-DD HH:mm:ss
+const std::string currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+    // for more information about date/time format
+    strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
+
+    return buf;
+}
+
+int parseLine(char* line){
+    // This assumes that a digit will be found and the line ends in " Kb".
+    int i = strlen(line);
+    const char* p = line;
+    while (*p <'0' || *p > '9') p++;
+    line[i-3] = '\0';
+    i = atoi(p);
+    return i;
+}
+
+int getValue() {
+    FILE* file = fopen("/proc/self/status", "r");
+    int result = -1;
+    char line[128];
+
+    while (fgets(line, 128, file) != NULL){
+        if (strncmp(line, "VmRSS:", 6) == 0){
+            result = parseLine(line);
+            break;
+        }
+    }
+    fclose(file);
+    return result;
+}
+
 class DiscordClient : public SleepyDiscord::DiscordClient 
 {
     public:
@@ -48,6 +86,7 @@ class DiscordClient : public SleepyDiscord::DiscordClient
                     // embed.footer.iconUrl = msg.author.getJSONStructure();
 
                     sendMessage(msg.channelID, " ", embed);
+                    cout << "[" << currentDateTime() << "] "<< msg.author.username << "#" << msg.author.discriminator << " requested " << msg.content << " in " << msg.channelID.string() << " (VmRSS: " << (getValue() / 1024) << " MB)" << endl;
                 }
             }
         }
